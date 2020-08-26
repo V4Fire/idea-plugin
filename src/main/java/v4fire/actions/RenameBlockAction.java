@@ -18,6 +18,6 @@ public class RenameBlockAction extends BaseAction {
 
         NewFilePopup.open((String newName) -> {
             api.rename(file.getParent(), oldName, newName);
-        }, oldName);
+        }, oldName, false);
     }
 }

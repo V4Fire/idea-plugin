@@ -47,10 +47,10 @@
         <group id="v4fire.actions" text="V4Fire" popup="true" icon="Icons.MAIN_16">
             <group id="v4fire.actions.new" text="New" popup="true">
                 <action id="v4fire.actions.MakeBlockAction" class="v4fire.actions.MakeBlockAction" text="Block" description="Make block">
-                    <keyboard-shortcut first-keystroke="alt F7" keymap="$default"/>
+                    <keyboard-shortcut first-keystroke="shift alt F7" keymap="$default"/>
                 </action>
                 <action id="v4fire.actions.MakePageAction" class="v4fire.actions.MakePageAction" text="Page" description="Make page">
-                    <keyboard-shortcut first-keystroke="alt F6" keymap="$default"/>
+                    <keyboard-shortcut first-keystroke="shift alt F5" keymap="$default"/>
                 </action>
             </group>
 
@@ -60,7 +60,7 @@
                 text="Rename"
                 description="Rename"
             >
-                <keyboard-shortcut first-keystroke="shift F6" keymap="$default"/>
+                <keyboard-shortcut first-keystroke="shift alt F6" keymap="$default"/>
             </action>
 
             <add-to-group group-id="ProjectViewPopupMenu" anchor="after" relative-to-action="v4fire.actions.MakeBlockAction"/>

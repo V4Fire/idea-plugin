@@ -10,7 +10,8 @@ import com.intellij.openapi.project.Project;
 import com.intellij.openapi.vfs.VirtualFileManager;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
-import v4fire.TypeCheck;
+import v4fire.settings.V4FireConfiguration;
+import v4fire.settings.V4FireState;
 import v4fire.utils.NodeRunner;
 import v4fire.utils.V4FireExeFinder;
 
@@ -69,19 +70,11 @@ public class Api {
         System.out.println(commandLine.toString());
 
         try {
-            final ProcessOutput[] outNode = {null};
-
-            ProgressManager.getInstance().runProcessWithProgressSynchronously(
-                    () -> {
-                        try {
-                            outNode[0] = ReadAction.compute(() -> NodeRunner.execute(commandLine, TIME_OUT));
-                        } catch (ExecutionException e) {
-                            e.printStackTrace();
-                        }
-                    }, "Node execution", false, project
+            ProcessOutput out = ProgressManager.getInstance().runProcessWithProgressSynchronously(
+                    () -> NodeRunner.execute(commandLine, TIME_OUT),
+                    "Node execution", false, project
             );
 
-            ProcessOutput out = outNode[0];
             result.errorOutput = out.getStderr();
 
             try {
@@ -98,35 +91,46 @@ public class Api {
         }
 
         if (!result.errorOutput.isEmpty()) {
-            JOptionPane.showMessageDialog(
-                    null,
-                    result.errorOutput, "Error",
-                    JOptionPane.ERROR_MESSAGE
-            );
+            showError(result.errorOutput);
         }
 
         Output.Response response = null;
 
         try {
-            System.out.println(result.output);
-            response = Output.parse(result.output);
-        } catch (Exception ignored) {
-            log.error(result.output);
-        }
+            try {
+                System.out.println(result.output);
+                response = Output.parse(result.output);
+            } catch (Exception ignored) {
+                log.error(result.output);
+            }
 
-        VirtualFileManager.getInstance().asyncRefresh(null);
+            if (response != null && response.data != null && response.data.message != null) {
+                showError(response.data.message);
+            }
 
-        if (response == null || response.status) {
-            log.info("stylus passed");
-            return response;
+
+            if (response == null || response.status) {
+                log.info("stylus passed");
+                return response;
+            }
+        } finally {
+            VirtualFileManager.getInstance().asyncRefresh(null);
         }
 
         return response;
     }
 
+    private void showError(String errorOutput) {
+        JOptionPane.showMessageDialog(
+                null,
+                errorOutput, "Error",
+                JOptionPane.ERROR_MESSAGE
+        );
+    }
+
     @Nullable
     private String getBinFile() {
-        String exePath = V4FireExeFinder.getPath(project, TypeCheck.getState(project));
+        String exePath = V4FireExeFinder.getPath(project, getState(project));
 
         if (exePath == null || exePath.isEmpty()) {
             log.info("V4Fire is not installed");
@@ -134,6 +138,10 @@ public class Api {
         }
 
         return exePath;
+    }
+
+    public static V4FireState getState(Project project) {
+        return V4FireConfiguration.getInstance(project).getExtendedState().getState();
     }
 
     private class Result {

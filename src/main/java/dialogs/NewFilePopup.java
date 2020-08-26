@@ -5,26 +5,21 @@ import com.intellij.openapi.ui.popup.JBPopup;
 import com.intellij.openapi.ui.popup.JBPopupFactory;
 import org.jdesktop.swingx.prompt.PromptSupport;
 
+import javax.imageio.ImageIO;
 import javax.swing.*;
 import java.awt.*;
 import java.awt.event.ActionListener;
 
 public class NewFilePopup {
-    static String defaultTitle = "New File";
-
     public static NewFilePopup open(Callback action) {
-        return new NewFilePopup(action, "", defaultTitle);
+        return new NewFilePopup(action, "", true);
     }
 
-    public static NewFilePopup open(Callback action, String name) {
-        return new NewFilePopup(action, name, defaultTitle);
+    public static NewFilePopup open(Callback action, String name, Boolean newMode) {
+        return new NewFilePopup(action, name, newMode);
     }
 
-    public static NewFilePopup open(Callback action, String name, String title) {
-        return new NewFilePopup(action, name, title);
-    }
-
-    protected NewFilePopup(Callback action, String currentName, String title) {
+    protected NewFilePopup(Callback action, String currentName, Boolean newMode) {
         JPanel panel = new JPanel();
 
 
@@ -38,12 +33,33 @@ public class NewFilePopup {
 
         JBPopup popup = JBPopupFactory.getInstance()
                 .createComponentPopupBuilder(panel, field)
-                .setTitle(title)
+                .setTitle(newMode ? "New" : "Rename")
                 .setShowBorder(true)
                 .setShowShadow(false)
                 .setRequestFocus(true)
                 .setCancelOnWindowDeactivation(false)
                 .createPopup();
+
+        if (newMode) {
+            JButton btn = new JButton();
+            btn.setPreferredSize(new Dimension(20, 20));
+
+            try {
+                Image img = ImageIO.read(getClass().getResource("/icons/pluginIcon.png"));
+                btn.setIcon(new ImageIcon(img));
+            } catch (Exception ex) {
+                System.out.println("error");
+                System.out.println(ex);
+            }
+
+            panel.add(btn);
+
+            btn.addActionListener((actionEvent) -> {
+                popup.cancel();
+
+                NewFileDialog.main();
+            });
+        }
 
         popup.showInFocusCenter();
 
@@ -52,6 +68,7 @@ public class NewFilePopup {
 
             if (name.length() > 0) {
                 popup.cancel();
+
                 try {
                     action.callback(name);
                 } catch (ExecutionException e) {
