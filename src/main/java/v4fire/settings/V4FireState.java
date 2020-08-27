@@ -54,7 +54,7 @@ public class V4FireState implements JSNpmLinterState<V4FireState> {
         return (new Builder(this)).setNodePackageRef(nodePackageRef).build();
     }
 
-    public V4FireState withInterpreterRef(NodeJsInterpreterRef ref) {
+    public V4FireState withInterpreterRef(@NotNull NodeJsInterpreterRef ref) {
         return new V4FireState(ref, this.myNodePackageRef, this.myCustomConfigFileUsed, this.myCustomConfigFilePath);
     }
 

@@ -4,8 +4,6 @@ import com.google.gson.Gson;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 
-import java.util.ArrayList;
-
 class Output {
     private static final Gson gson = new Gson();
 

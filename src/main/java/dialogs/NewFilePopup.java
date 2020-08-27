@@ -49,7 +49,7 @@ public class NewFilePopup {
                 btn.setIcon(new ImageIcon(img));
             } catch (Exception ex) {
                 System.out.println("error");
-                System.out.println(ex);
+                System.out.println(ex.getMessage());
             }
 
             panel.add(btn);

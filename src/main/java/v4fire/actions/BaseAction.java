@@ -55,5 +55,5 @@ public abstract class BaseAction  extends AnAction {
     }
 
     protected abstract boolean isSuitFolder(String path);
-    protected void callAction(String path, Project project) {};
+    protected void callAction(String path, Project project) {}
 }

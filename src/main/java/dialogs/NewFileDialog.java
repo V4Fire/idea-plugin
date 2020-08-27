@@ -2,7 +2,6 @@ package dialogs;
 
 import com.intellij.execution.ExecutionException;
 import com.sun.istack.NotNull;
-import com.sun.istack.Nullable;
 import v4fire.api.Data;
 
 import javax.swing.*;

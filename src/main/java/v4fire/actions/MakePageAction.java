@@ -1,7 +1,6 @@
 package v4fire.actions;
 import com.intellij.openapi.project.Project;
 import dialogs.NewFilePopup;
-import v4fire.api.Api;
 import v4fire.api.Data;
 
 public class MakePageAction extends BaseAction {

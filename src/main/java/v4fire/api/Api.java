@@ -3,7 +3,6 @@ package v4fire.api;
 import com.intellij.execution.ExecutionException;
 import com.intellij.execution.configurations.GeneralCommandLine;
 import com.intellij.execution.process.ProcessOutput;
-import com.intellij.openapi.application.ReadAction;
 import com.intellij.openapi.diagnostic.Logger;
 import com.intellij.openapi.progress.ProgressManager;
 import com.intellij.openapi.project.Project;
@@ -157,23 +156,23 @@ public class Api {
         return V4FireConfiguration.getInstance(project).getExtendedState().getState();
     }
 
-    private class Result {
+    private static class Result {
         String errorOutput;
         String output;
         boolean isOk;
     }
 
-    private class Params {
+    private static class Params {
         @NotNull String command;
         @NotNull String subject;
         @NotNull String path;
         @NotNull Data data;
 
         public Params(
-                String __path,
-                String __command,
-                String __subject,
-                Data __data
+                @NotNull String __path,
+                @NotNull String __command,
+                @NotNull String __subject,
+                @NotNull Data __data
         ) {
             path = __path;
             command = __command;
