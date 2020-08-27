@@ -4,11 +4,11 @@ import com.intellij.execution.ExecutionException;
 import com.intellij.openapi.ui.popup.JBPopup;
 import com.intellij.openapi.ui.popup.JBPopupFactory;
 import org.jdesktop.swingx.prompt.PromptSupport;
+import v4fire.api.Data;
 
 import javax.imageio.ImageIO;
 import javax.swing.*;
 import java.awt.*;
-import java.awt.event.ActionListener;
 
 public class NewFilePopup {
     public static NewFilePopup open(Callback action) {
@@ -56,8 +56,7 @@ public class NewFilePopup {
 
             btn.addActionListener((actionEvent) -> {
                 popup.cancel();
-
-                NewFileDialog.main();
+                NewFileDialog.main(action, field.getText());
             });
         }
 
@@ -70,7 +69,10 @@ public class NewFilePopup {
                 popup.cancel();
 
                 try {
-                    action.callback(name);
+                    Data data = new Data();
+                    data.oldName = currentName;
+                    data.newName = name;
+                    action.callback(data);
                 } catch (ExecutionException e) {
                     e.printStackTrace();
                 }
@@ -79,6 +81,6 @@ public class NewFilePopup {
     }
 
     public interface Callback {
-        void callback(String name) throws ExecutionException;
+        void callback(Data data) throws ExecutionException;
     }
 }

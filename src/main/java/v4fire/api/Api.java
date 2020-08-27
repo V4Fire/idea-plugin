@@ -27,16 +27,16 @@ public class Api {
         project = __project;
     }
 
-    public void makeBlock(String path, String name) throws ExecutionException {
-        this.run(new Params(path, "make", "block", name));
+    public void makeBlock(String path, Data data) throws ExecutionException {
+        this.run(new Params(path, "make", "block", data));
     }
 
-    public void makePage(String path,String name) throws ExecutionException {
-        this.run(new Params(path, "make", "page", name));
+    public void makePage(String path, Data data) throws ExecutionException {
+        this.run(new Params(path, "make", "page", data));
     }
 
-    public void rename(String path, String name, String newName) throws ExecutionException {
-        this.run(new Params(path, "rename", "", name, newName));
+    public void rename(String path, Data data) throws ExecutionException {
+        this.run(new Params(path, "rename", "", data));
     }
 
     private static final Logger log = Logger.getInstance(Api.class);
@@ -52,17 +52,30 @@ public class Api {
         commandLine.setExePath(getBinFile());
         commandLine.addParameter(params.command);
 
-        if (!params.subject.isEmpty()) {
-            commandLine.addParameter(params.subject);
-        }
+        switch (params.command) {
+            case "make":
+                commandLine.addParameter(params.subject);
+                commandLine.addParameter(params.data.newName);
+                break;
 
-        commandLine.addParameter(params.name);
-
-        if (!params.newName.isEmpty()) {
-            commandLine.addParameter(params.newName);
+            case "rename":
+                commandLine.addParameter(params.data.oldName);
+                commandLine.addParameter(params.data.newName);
+                break;
         }
 
         commandLine.addParameter(params.path);
+
+        if (!params.data.extend.isEmpty()) {
+            commandLine.addParameter("--extend");
+            commandLine.addParameter(params.data.extend);
+        }
+
+        if (!params.data.template.isEmpty()) {
+            commandLine.addParameter("--template");
+            commandLine.addParameter(params.data.template);
+        }
+
         commandLine.addParameter("--reporter");
         commandLine.addParameter("json");
 
@@ -153,31 +166,19 @@ public class Api {
     private class Params {
         @NotNull String command;
         @NotNull String subject;
-        @NotNull String name;
-        @NotNull String newName;
         @NotNull String path;
+        @NotNull Data data;
 
         public Params(
                 String __path,
                 String __command,
                 String __subject,
-                String __name
-        ) {
-            this(__path, __command, __subject, __name, "");
-        };
-
-        public Params(
-                String __path,
-                String __command,
-                String __subject,
-                String __name,
-                String __newName
+                Data __data
         ) {
             path = __path;
             command = __command;
             subject = __subject;
-            name = __name;
-            newName = __newName;
+            data = __data;
         }
     }
 }

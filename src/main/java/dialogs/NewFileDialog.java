@@ -1,5 +1,10 @@
 package dialogs;
 
+import com.intellij.execution.ExecutionException;
+import com.sun.istack.NotNull;
+import com.sun.istack.Nullable;
+import v4fire.api.Data;
+
 import javax.swing.*;
 import java.awt.event.*;
 
@@ -7,9 +12,9 @@ public class NewFileDialog extends JDialog {
     private JPanel contentPane;
     private JButton buttonOK;
     private JButton buttonCancel;
-    private JTextField textField1;
-    private JComboBox comboBox1;
-    private JComboBox comboBox2;
+    public JTextField name;
+    private JComboBox template;
+    private JComboBox extend;
 
     public NewFileDialog() {
         setContentPane(contentPane);
@@ -18,7 +23,7 @@ public class NewFileDialog extends JDialog {
 
         buttonOK.addActionListener(new ActionListener() {
             public void actionPerformed(ActionEvent e) {
-                onOK();
+                onOK(e);
             }
         });
 
@@ -44,8 +49,22 @@ public class NewFileDialog extends JDialog {
         }, KeyStroke.getKeyStroke(KeyEvent.VK_ESCAPE, 0), JComponent.WHEN_ANCESTOR_OF_FOCUSED_COMPONENT);
     }
 
-    private void onOK() {
+    @NotNull
+    public NewFilePopup.Callback onOkHandler;
+
+    private void onOK(ActionEvent e) {
         // add your code here
+        try {
+            Data data = new Data();
+
+            data.newName = name.getText();
+            data.extend = extend.getSelectedItem().toString().toLowerCase();
+            data.template = template.getSelectedItem().toString().toLowerCase();
+
+            onOkHandler.callback(data);
+        } catch (ExecutionException error) {
+        }
+
         dispose();
     }
 
@@ -54,8 +73,10 @@ public class NewFileDialog extends JDialog {
         dispose();
     }
 
-    public static void main() {
+    public static void main(NewFilePopup.Callback onOk, String name) {
         NewFileDialog dialog = new NewFileDialog();
+        dialog.name.setText(name);
+        dialog.onOkHandler = onOk;
         dialog.pack();
         dialog.setLocationRelativeTo(null);
         dialog.setVisible(true);
