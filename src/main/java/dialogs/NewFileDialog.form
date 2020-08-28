@@ -106,6 +106,7 @@
             </constraints>
             <properties>
               <model>
+                <item value="Default"/>
                 <item value="i-block"/>
                 <item value="i-data"/>
                 <item value="i-dynamic-page"/>
