@@ -10,7 +10,8 @@ yarn add v4fire-cli
 ```
 
 ![Screen5](./images/5.png)
-![Screen1](./images/1.png)
+![Screen5](./images/1.png)
+![Screen1](./images/1.1.png)
 ![Screen2](./images/2.png)
 ![Screen3](./images/3.png)
 ![Screen4](./images/4.png)
