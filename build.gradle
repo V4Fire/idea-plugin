@@ -11,7 +11,7 @@ plugins {
 }
 
 group 'org.v4fire'
-version '1.5.10'
+version '1.0.1'
 
 repositories {
     mavenCentral()
@@ -24,7 +24,7 @@ dependencies {
 apply plugin: 'org.jetbrains.intellij'
 
 intellij {
-    pluginName 'Stylus Linter'
+    pluginName 'V4Fire'
     plugins = ['JavaScriptLanguage']
     version 'IU-2020.2'
 }

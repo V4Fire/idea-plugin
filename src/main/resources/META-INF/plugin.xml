@@ -1,17 +1,30 @@
 <idea-plugin>
     <id>v4fire</id>
-    <name>V4Fire Tools</name>
+    <name>V4Fire</name>
+    <version>1.0.1</version>
     <vendor email="chupurnov@gmail.com" url="https://github.com/xdan">Chupurnov</vendor>
-
+    <category>Integration</category>
     <description><![CDATA[
-    Plugin give some helpers for fast working with v4fire.
+    <p>The plugin helps to quickly create and edit components for the <a href="https://github.com/V4Fire/Client">v4fire framework </a>.</p>
+    <p>To work you need to install <a href="https://github.com/V4Fire/cli">v4fire-cli</a></p>
+    <pre>
+    yarn add v4fire-cli -D
+    </pre>
+    <p>or</p>
+    <pre>
+    npm i v4fire-cli --save-dev
+    </pre>
+    <p>To work you need to install <a href="https://github.com/V4Fire/cli">v4fire-cli</a></p>
+    <p>For more information you can follow <a href="https://github.com/V4Fire/idea-plugin">https://github.com/V4Fire/idea-plugin</a></p>
     ]]></description>
 
-    <!-- please see https://www.jetbrains.org/intellij/sdk/docs/basics/getting_started/plugin_compatibility.html
-         on how to target different products -->
     <depends>com.intellij.modules.platform</depends>
     <depends>com.intellij.modules.lang</depends>
     <depends>JavaScript</depends>
+
+    <change-notes>
+        1.0.1 Added support rename and new component
+    </change-notes>
 
     <resource-bundle>messages.V4FireBundle</resource-bundle>
 
