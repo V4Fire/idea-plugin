@@ -6,7 +6,7 @@ in intellij idea IDEs (WebStorm, PHPStorm etc)
 > Need install  `v4fire-cli` before work
 
 ```bash
-yarn add v4fire-cli
+yarn add v4fire-cli -D
 ```
 
 ![Screen5](./images/5.png)
